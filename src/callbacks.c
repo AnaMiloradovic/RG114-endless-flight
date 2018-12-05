@@ -1,41 +1,7 @@
-#include <stdlib.h>
-#include <GL/glut.h>
+#include "include/callbacks.h"
 
-static int player_x = 0;
 
-/*callback function declarations*/
-static void on_display(void);
-static void on_reshape(int width, int height);
-static void on_keyboard(unsigned char key, int x, int y);
-
-int main(int argc, char **argv) {
-
-  /*GLUT init*/
-  glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-	/*creating window*/
-	glutInitWindowSize(800, 450);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Endless Flight");
-	glutSetIconTitle("Endless Flight");
-
-  /*callback function init*/
-  glutDisplayFunc(on_display);
-  glutReshapeFunc(on_reshape);
-  glutKeyboardFunc(on_keyboard);
-
-  /*OpenGL init*/
-  glClearColor(0.9, 0.9, 0.9, 1);
-	glEnable(GL_DEPTH_TEST);
-
-  /*enter main loop*/
-  glutMainLoop();
-
-  return 0;
-}
-
-static void on_display(void)
+void on_display(void)
 {
   /* Pozicija svetla (u pitanju je direkcionalno svetlo). */
   GLfloat light_position[] = { 1, 1, 1, 0 };
@@ -86,14 +52,14 @@ static void on_display(void)
   /* Kreira se objekat. */
   glPushMatrix();
     glColor3f(0, 1, 0);
-    glTranslatef(3, 0, 0);
+    glTranslatef(player_x, 0, player_z);
     glutSolidSphere(0.8, 40, 40);
   glPopMatrix();
 
   glLineWidth(10);
   glBegin(GL_LINES);
-  glVertex3f(0, 0, 10);
-  glVertex3f(0, 0, -100);
+    glVertex3f(0, 0, 10);
+    glVertex3f(0, 0, -100);
   glEnd();
 
   glBegin(GL_LINES);
@@ -108,7 +74,7 @@ static void on_display(void)
   glutSwapBuffers();
 }
 
-static void on_reshape(int width, int height)
+void on_reshape(int width, int height)
 {
     /* Podesava se viewport. */
     glViewport(0, 0, width, height);
@@ -121,17 +87,36 @@ static void on_reshape(int width, int height)
     glMatrixMode (GL_MODELVIEW);
 }
 
-static void on_keyboard(unsigned char key, int x, int y)
+void on_keyboard(unsigned char key, int x, int y)
 {
   switch (key) {
     case 27:
-    /* Zavrsava se program. */
-    exit(0);
-    break;
+      /* Zavrsava se program. */
+      exit(0);
+      break;
     case 'a':
     case 'A':
-    player_x = -1.0;
-    glutPostRedisplay();
+    if(player_x > 1)
+        player_x -= 2.0;
+      glutPostRedisplay();
+    break;
+    case 'd':
+    case 'D':
+      if(player_x < 5)
+        player_x += 2.0;  
+      glutPostRedisplay();
+    break;
+    case 'w':
+    case 'W':
+      if(player_z > -2)
+        player_z -= 2.0;  
+      glutPostRedisplay();
+    break;
+    case 's':
+    case 'S':
+      if(player_z < 0)
+        player_z += 2.0;  
+      glutPostRedisplay();
     break;
   }
 }

@@ -1,11 +1,12 @@
 CC  	= gcc
-CCLIBS	= -lGL -lGLU -lglut
+CCLIBS	= -lGL -lGLU -lglut -lm
 CCFLAGS	= -Wall -Wextra
 PROGRAM	= endlessFlight
 OBJ 	=		\
 	main.o		\
 	init.o		\
-	callbacks.o		 
+	callbacks.o	\
+	obstacles.o	 
 VPATH 	= src
 
 

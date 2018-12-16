@@ -2,6 +2,7 @@
 #define _H_INIT_H_
 
 #include <GL/glut.h>
+#include <math.h>
 #include "callbacks.h"
 #include "indicators.h"
 
@@ -11,5 +12,8 @@
 void glut_init(int *argc, char **argv);
 
 void callbacks_init(void);
+
+void obstacles_init(void);
+
 
 #endif

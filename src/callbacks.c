@@ -50,9 +50,11 @@ void on_display(void)
   glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 
   /* Kreira se objekat. */
+  // TODO 
+  // Create paper plane function
   glPushMatrix();
     glColor3f(0, 1, 0);
-    glTranslatef(player_x, 0, player_z);
+    glTranslatef(player_x, 0, 0);
     glutSolidSphere(0.8, 40, 40);
   glPopMatrix();
 
@@ -82,7 +84,7 @@ void on_reshape(int width, int height)
     /* Podesava se projekcija. */
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    /*gluPerspective(45, (float) width / height, 1, 40);*/
+    // gluPerspective(80, (float) width / height, 1, 40);
     glFrustum (-1.0, 1.0, -1.0, 1.0, 1.0, 40.0);
     glMatrixMode (GL_MODELVIEW);
 }
@@ -94,29 +96,66 @@ void on_keyboard(unsigned char key, int x, int y)
       /* Zavrsava se program. */
       exit(0);
       break;
+
     case 'a':
     case 'A':
     if(player_x > 1)
         player_x -= 2.0;
       glutPostRedisplay();
     break;
+
     case 'd':
     case 'D':
       if(player_x < 5)
         player_x += 2.0;  
       glutPostRedisplay();
     break;
+
     case 'w':
     case 'W':
       if(player_z > -2)
         player_z -= 2.0;  
       glutPostRedisplay();
     break;
+
     case 's':
     case 'S':
       if(player_z < 0)
         player_z += 2.0;  
       glutPostRedisplay();
     break;
+
+    case 'n':
+    case 'N':
+      if(!animation_active){
+        glutTimerFunc(50, on_timer, 0);
+        animation_active = 1;
+      }
+
+      {
+        int i, run = 1;
+        for (i = 0; run && (i < MAX_OBSTACLES); i++)
+          if (obstacles_x[i] < 0) {
+            obstacles_z[i] = 0;
+            obstacles_x[i] = cos(animation_parameter / 10.0f);
+            run = 0;
+        }
+        }
   }
+}
+
+void on_timer(int value){
+  if(value != 0)
+    return;
+
+  animation_parameter++;
+
+  glutPostRedisplay();
+
+  //TODO 
+  //Pomeranje prepreka
+
+  //Po potrebi se ponovo postavlja timer
+  if(animation_active)
+    glutTimerFunc(50, on_timer, 0);
 }

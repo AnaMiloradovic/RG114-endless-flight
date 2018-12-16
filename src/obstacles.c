@@ -2,7 +2,7 @@
 
 Obstacle_row *obstacles_list = NULL;
 
-Obstacle_row *new_obstacle_row(){
+Obstacle_row new_obstacle_row(){
 
     if (err_indicator == 1)
         return;
@@ -14,9 +14,9 @@ Obstacle_row *new_obstacle_row(){
         return;
     }
 
-    // new.positions = &all_rows[rand()%7];
-    new.positions = {0,0,0}
-    new.zpos = -20;
+    new->positions = &all_rows[rand()%7];
+    // new.positions = {0,0,0}
+    new->zpos = -20;
 
 }
 

@@ -1,13 +1,11 @@
-#ifndef _H_INDICATORS_H_
-#define _H_INDICATORS_H_
+#ifndef _H_OBSTACLES_H_
+#define _H_OBSTACLES_H_
 
 #include <stdlib.h>
 #include "indicators.h"
 #include "init.h"
 
-extern Obstacle_row *obstacles_list;
-
-typedef struct _row{
+typedef struct _row {
 
     //pointer to a valid obstacle row
     int (*positions)[3];
@@ -19,7 +17,9 @@ typedef struct _row{
 
 } Obstacle_row;
 
-Obstacle_row *new_obstacle_row(void);
+extern Obstacle_row *obstacles_list;
+
+Obstacle_row new_obstacle_row(void);
 
 void pop_front_row(void);
 

@@ -18,4 +18,10 @@ extern int err_indicator;
 //All possible valid obstacle rows
 extern int all_rows[7][3];
 
+// For circular double linked lists --BEGIN--
+n *new_circular_list, *ptr, *prev;
+n *first, *last;
+int number;
+//--END--
+
 #endif

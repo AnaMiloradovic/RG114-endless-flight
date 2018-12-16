@@ -32,8 +32,6 @@ void glut_init(int *argc, char **argv){
     glutCreateWindow("Endless Flight");
     glutSetIconTitle("Endless Flight");
 
-    obstacles_init();
-
     glClearColor(0.9, 0.9, 0.9, 1);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -43,3 +41,9 @@ void callbacks_init(){
     glutReshapeFunc(&on_reshape);
     glutKeyboardFunc(&on_keyboard);
 }
+
+
+// For circular double linked lists --BEGIN--
+n *first = NULL, *last = NULL;
+int number = 0;
+//--END--

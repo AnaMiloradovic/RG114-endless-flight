@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #include <math.h>
 #include "callbacks.h"
+#include "circular_list.h"
 #include "indicators.h"
 
 #define WINDOW_HEIGTH 450

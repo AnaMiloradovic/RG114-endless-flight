@@ -6,7 +6,8 @@ OBJ 	=		\
 	main.o		\
 	init.o		\
 	callbacks.o	\
-	obstacles.o	 
+	obstacles.o	\
+	queue.o
 VPATH 	= src
 
 

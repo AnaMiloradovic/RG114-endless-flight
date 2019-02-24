@@ -69,6 +69,22 @@ void on_display(void)
   glVertex3f(6, 0, -100);
   glEnd();
 
+  //TODO
+  //Iscrtaj prepreke
+  {
+      int i;
+      for (i = 0; i < 100; i++){
+        if (prepreke[i]->zpos <= 0) {
+            glPushMatrix();
+              glColor3f(0, 1, 0);
+              glTranslatef(player_x, 0, prepreke[i]->zpos);
+              glutSolidSphere(0.4, 40, 40);
+            glPopMatrix();
+        }
+      }        
+  }
+  
+
 
   glShadeModel(GL_SMOOTH);
 
@@ -131,16 +147,7 @@ void on_keyboard(unsigned char key, int x, int y)
         glutTimerFunc(50, on_timer, 0);
         animation_active = 1;
       }
-
-      {
-        int i, run = 1;
-        for (i = 0; run && (i < MAX_OBSTACLES); i++)
-          if (obstacles_x[i] < 0) {
-            obstacles_z[i] = 0;
-            obstacles_x[i] = cos(animation_parameter / 10.0f);
-            run = 0;
-        }
-        }
+    break;
   }
 }
 
@@ -154,6 +161,14 @@ void on_timer(int value){
 
   //TODO 
   //Pomeranje prepreka
+  /* Pomeramo metke */
+  {
+      int i;
+      for (i = 0; i < 100; i++)
+        if (prepreke[i]->zpos <= 0) {
+          prepreke[i]->zpos += .5;
+      }
+  }
 
   //Po potrebi se ponovo postavlja timer
   if(animation_active)

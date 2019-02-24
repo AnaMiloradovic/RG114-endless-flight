@@ -1,10 +1,8 @@
 #ifndef _H_CALLBACKS_H_
 #define _H_CALLBACKS_H_
 
-#include <stdlib.h>
-#include <GL/glut.h>
-#include "init.h"
 #include "indicators.h"
+#include "init.h"
 
 void on_display(void);
 void on_reshape(int width, int height);

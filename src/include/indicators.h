@@ -1,6 +1,9 @@
 #ifndef _H_INDICATORS_H_
 #define _H_INDICATORS_H_
 
+#include "obstacles.h"
+#include "circular_list.h"
+
 #define MAX_OBSTACLES 30
 
 extern int player_x;
@@ -18,7 +21,8 @@ extern int err_indicator;
 //All possible valid obstacle rows
 extern int all_rows[7][3];
 
-// For circular double linked lists --BEGIN--
+// Circular double linked lists library indicators
+//--BEGIN--
 n *new_circular_list, *ptr, *prev;
 n *first, *last;
 int number;

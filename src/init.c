@@ -1,5 +1,6 @@
 #include "include/init.h"
 
+
 int err_indicator = 0;
 
 int player_x = 3;
@@ -47,3 +48,15 @@ void callbacks_init(){
 n *first = NULL, *last = NULL;
 int number = 0;
 //--END--
+
+void obstacles_init(){
+    //DEBUG row initialization
+    int i, j;  
+    for (i=0; i<100; i++){
+        prepreke[i] = new_obstacle_row();
+        prepreke[i]->zpos -= i;
+        for (j=0; j<3; j++)
+        printf("%d ", prepreke[i]->positions[j]);
+        printf("zpos: %f\n", prepreke[i]->zpos);
+    }
+}

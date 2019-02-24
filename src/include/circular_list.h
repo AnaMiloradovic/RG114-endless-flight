@@ -6,8 +6,6 @@
 #ifndef _H_CIRCLIST_H_
 #define _H_CIRCLIST_H_
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "indicators.h"
 #include "init.h"
  
@@ -17,6 +15,7 @@ struct node
     struct node *next;
     struct node *prev;    
 };
+
 typedef struct node n;
 
 n* create_node(int);

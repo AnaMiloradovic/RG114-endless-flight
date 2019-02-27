@@ -1,3 +1,5 @@
+#include "include/queue.h"
+
 /*
  * File   : queue.c
  * Author : zentut.com
@@ -6,6 +8,7 @@
 /*
     initialize queue pointers
 */
+
 void init(int *head, int *tail)
 {
     *head = *tail = 0;

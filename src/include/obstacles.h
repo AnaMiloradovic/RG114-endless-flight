@@ -3,13 +3,12 @@
 
 #include "indicators.h"
 #include "init.h"
+#include "queue.h"
 
 typedef struct _row {
-
     //pointer to a valid obstacle row
     int positions[3];
     float zpos;
-
 } Obstacle_row;
 
 extern Obstacle_row *prepreke[100];

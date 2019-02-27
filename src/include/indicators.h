@@ -2,7 +2,7 @@
 #define _H_INDICATORS_H_
 
 #include "obstacles.h"
-#include "circular_list.h"
+
 
 #define MAX_OBSTACLES 30
 
@@ -23,9 +23,7 @@ extern int all_rows[7][3];
 
 // Circular double linked lists library indicators
 //--BEGIN--
-n *new_circular_list, *ptr, *prev;
-n *first, *last;
-int number;
+
 //--END--
 
 #endif

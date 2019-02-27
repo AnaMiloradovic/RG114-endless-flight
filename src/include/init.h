@@ -10,7 +10,7 @@
 #include "indicators.h"
 #include "obstacles.h"
 #include "callbacks.h"
-#include "circular_list.h"
+#include "queue.h"
 
 #define WINDOW_HEIGTH 450
 #define WINDOW_WIDTH 800

@@ -5,10 +5,10 @@
  * Author : zentut.com
  * Purpose: stack header file
  */
+
 /*
     initialize queue pointers
 */
-
 void init(int *head, int *tail)
 {
     *head = *tail = 0;

@@ -7,7 +7,7 @@ OBJ 	=		\
 	init.o		\
 	callbacks.o	\
 	obstacles.o	\
-	queue.o
+	draw.o
 VPATH 	= src
 
 

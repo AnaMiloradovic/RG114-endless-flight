@@ -7,13 +7,13 @@
 #include <GL/glut.h>
 #include <math.h>
 
-#include "indicators.h"
-#include "obstacles.h"
 #include "callbacks.h"
-#include "queue.h"
+#include "indicators.h"
 
 #define WINDOW_HEIGTH 450
 #define WINDOW_WIDTH 800
+
+#define FAR_CLIP_PLANE 20.0
 
 void glut_init(int *argc, char **argv);
 

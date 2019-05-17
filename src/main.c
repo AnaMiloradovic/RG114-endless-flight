@@ -2,8 +2,8 @@
 
 int main(int argc, char **argv) {
 
-  obstacles_init();
-
+  init_obstacles();
+  display(obst_buff, obst_buff_head,obst_buff_tail);
   /*Glut init and creating window*/
   glut_init(&argc, argv);
 

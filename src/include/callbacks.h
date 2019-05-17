@@ -1,7 +1,7 @@
 #ifndef _H_CALLBACKS_H_
 #define _H_CALLBACKS_H_
 
-#include "indicators.h"
+#include "obstacles.h"
 #include "init.h"
 
 void on_display(void);

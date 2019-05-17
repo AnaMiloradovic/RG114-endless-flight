@@ -178,13 +178,13 @@ void on_timer(int value)
       {
         obst_buff[i].obst_zpos += animation_parameter *1;
       } 
-      else
-      {
-        dequeue(obst_buff, &obst_buff_head);
-        Obstacle_row new = new_obstacle_row();
-        new.obst_zpos = -590.0;
-        enqueue(obst_buff, &obst_buff_tail, new);
-      }
+      // else
+      // {
+      //   dequeue(obst_buff, &obst_buff_head);
+      //   Obstacle_row new = new_obstacle_row();
+      //   new.obst_zpos = -590.0;
+      //   enqueue(obst_buff, &obst_buff_tail, new);
+      // }
       
   }
 

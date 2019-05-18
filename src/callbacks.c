@@ -2,29 +2,29 @@
 
 void on_display(void)
 {
-  /* Pozicija svetla (u pitanju je direkcionalno svetlo). */
-  GLfloat light_position[] = {1, 1, 1, 0};
+  // /* Pozicija svetla (u pitanju je direkcionalno svetlo). */
+  // GLfloat light_position[] = {1, 1, 1, 0};
 
-  /* Ambijentalna boja svetla. */
-  GLfloat light_ambient[] = {0.9, 0.9, 0.9, 1};
+  // /* Ambijentalna boja svetla. */
+  // GLfloat light_ambient[] = {0.9, 0.9, 0.9, 1};
 
-  /* Difuzna boja svetla. */
-  GLfloat light_diffuse[] = {0, 0, 0, 1};
+  // /* Difuzna boja svetla. */
+  // GLfloat light_diffuse[] = {0, 0, 0, 1};
 
-  /* Spekularna boja svetla. */
-  GLfloat light_specular[] = {0.9, 0.9, 0.9, 1};
+  // /* Spekularna boja svetla. */
+  // GLfloat light_specular[] = {0.9, 0.9, 0.9, 1};
 
-  /* Koeficijenti ambijentalne refleksije materijala. */
-  GLfloat ambient_coeffs[] = {1.0, 0.5, 0.1, 1};
+  // /* Koeficijenti ambijentalne refleksije materijala. */
+  // GLfloat ambient_coeffs[] = {1.0, 0.5, 0.1, 1};
 
-  /* Koeficijenti difuzne refleksije materijala. */
-  GLfloat diffuse_coeffs[] = {0.0, 0.0, 0.8, 1};
+  // /* Koeficijenti difuzne refleksije materijala. */
+  // GLfloat diffuse_coeffs[] = {0.0, 0.0, 0.8, 1};
 
-  /* Koeficijenti spekularne refleksije materijala. */
-  GLfloat specular_coeffs[] = {1, 1, 1, 1};
+  // /* Koeficijenti spekularne refleksije materijala. */
+  // GLfloat specular_coeffs[] = {1, 1, 1, 1};
 
-  /* Koeficijent glatkosti materijala. */
-  GLfloat shininess = 10;
+  // /* Koeficijent glatkosti materijala. */
+  // GLfloat shininess = 10;
 
   /* Brise se prethodni sadrzaj prozora. */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -32,7 +32,7 @@ void on_display(void)
   /* Podesava se vidna tacka. */
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(3.0, 6.0, 1.0, 3.0, 0.0, -5.0, 0.0, 1.0, 0.0);
+  gluLookAt(3.0, 2.5, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 
   // /* Ukljucuje se osvjetljenje i podesavaju parametri svetla. */
   // glEnable(GL_LIGHTING);
@@ -53,7 +53,7 @@ void on_display(void)
   // Create paper plane function
   glPushMatrix();
     glColor3f(0, 1, 0);
-    glTranslatef(player_x, 0, 0);
+    glTranslatef(player_x, 0, player_z);
     glutSolidSphere(0.8, 40, 40);
   glPopMatrix();
 
@@ -72,20 +72,30 @@ void on_display(void)
   //Iscrtaj prepreke
   {
     int i;
-    for (i = OBST_BUFF_SIZE - 1; i > 0; i--)
+    for (i = 0; i < OBST_BUFF_SIZE; i++)
     {
       if (obst_buff[i].obst_zpos < 10)
       {
         for(int j=0; j<3; j++)
-        {
+        {          
           if (obst_buff[i].obst[j] == 1)
           {
             int obst_x = 1+2*j;
+
             glPushMatrix();
             glColor3f(1, 0, 0);
             glTranslatef(obst_x, 0, obst_buff[i].obst_zpos);
-            glutSolidSphere(0.4, 40, 40);
+            glutSolidSphere(0.3, 40, 40);
             glPopMatrix();
+
+            // check_collision();
+            if ((obst_buff[i].obst_zpos > (player_z-0.2))&&(obst_buff[i].obst_zpos < (player_z+0.2)) && obst_x == player_x)
+            {
+              printf("-------------\n");
+              printf("--GAME OVER--\n");
+              printf("-------------\n");
+              exit(EXIT_FAILURE);
+            }
           }            
         }       
       }
@@ -106,8 +116,8 @@ void on_reshape(int width, int height)
   /* Podesava se projekcija. */
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  // gluPerspective(80, (float) width / height, 1, 40);
-  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, FAR_CLIP_PLANE);
+  gluPerspective(80, (float) width / height, 1, FAR_CLIP_PLANE);
+  // glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, FAR_CLIP_PLANE);
   glMatrixMode(GL_MODELVIEW);
 }
 
@@ -170,25 +180,24 @@ void on_timer(int value)
 
   //TODO
   //Pomeranje prepreka
-  /* Pomeramo metke */
   {
     int i;
     for (i = 0; i < OBST_BUFF_SIZE; i++)
       if (obst_buff[i].obst_zpos < 10)
       {
-        obst_buff[i].obst_zpos += animation_parameter *1;
+        obst_buff[i].obst_zpos += animation_parameter * .1;
       } 
-      // else
-      // {
-      //   dequeue(obst_buff, &obst_buff_head);
-      //   Obstacle_row new = new_obstacle_row();
-      //   new.obst_zpos = -590.0;
-      //   enqueue(obst_buff, &obst_buff_tail, new);
-      // }
+      else
+      {
+        // dequeue(obst_buff, &obst_buff_head);
+        // Obstacle_row new = new_obstacle_row();
+        obst_buff[i].obst_zpos = -758.0;
+        // enqueue(obst_buff, &obst_buff_tail, new);
+      }
       
   }
 
-  printf("zpos: %f\n",obst_buff[1].obst_zpos);
+  // printf("zpos: %f\n", obst_buff[0].obst_zpos);
 
   //Po potrebi se ponovo postavlja timer
   if (animation_active)

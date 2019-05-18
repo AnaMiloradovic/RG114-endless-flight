@@ -6,10 +6,11 @@
 #include <stdlib.h>
 
 #define MAX_OBSTACLES 30
-#define OBST_BUFF_SIZE 100
+#define OBST_BUFF_SIZE 128
 
 // Struct that stores one row of obsticles
-typedef struct _row{
+typedef struct _row
+{
     // Array that stores obstacle positions in cirrent row
     // picked from list of all possible obsticle positions
     int obst[3];
@@ -30,11 +31,11 @@ extern int all_rows[7][3];
  */
 
 void init(int *head, int *tail);
-void enqueue(Obstacle_row *q,int *tail, Obstacle_row element);
-Obstacle_row dequeue(Obstacle_row *q,int *head);
-int empty(int head,int tail);
-int full(int tail,const int size);
-void display(Obstacle_row *q,int head,int tail);
+void enqueue(Obstacle_row *q, int *tail, Obstacle_row element);
+Obstacle_row dequeue(Obstacle_row *q, int *head);
+int empty(int head, int tail);
+int full(int tail, const int size);
+void display(Obstacle_row *q, int head, int tail);
 
 /* --- QUEUE FUNCTIONS END --- */
 /* -------------------------------- */
@@ -61,11 +62,13 @@ Obstacle_row n_obst_row;
 // front obstacle row
 void pop_front_row(void);
 
-
-// Function that enqueues 
+// Function that enqueues
 // new obstacle row picked by
 // function new_obstacle_row
 void add_new_row(Obstacle_row new_row);
 
+// Function that stops game if collision
+// between player and obstacle from row occurs
+void check_collisions(Obstacle_row r);
 
 #endif

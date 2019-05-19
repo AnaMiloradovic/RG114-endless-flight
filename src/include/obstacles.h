@@ -17,6 +17,7 @@ typedef struct _row
 
     // Current position (z coordoinate) of row on the display
     float obst_zpos;
+    int tree_type;
 } Obstacle_row;
 
 //All possible valid obstacle rows

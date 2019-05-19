@@ -14,7 +14,8 @@ void draw_plane();
 void set_normal_and_vertex_cylinder(float u, float v);
 
 // Function used to draw obstacles
-void draw_tree();
+void draw_tree_1();
+void draw_tree_2();
 
 
 #endif

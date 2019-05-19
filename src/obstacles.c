@@ -119,6 +119,8 @@ void init_obstacles()
         
         // Setting zpos to current row
         obst_buff[i].obst_zpos = - FAR_CLIP_PLANE - 6*i;
+
+        obst_buff[i].tree_type = rand() % 2;
     }  
 }
 

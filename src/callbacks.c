@@ -64,7 +64,7 @@ void on_display(void)
             // glScalef(1, 10, 1);
             glTranslatef(obst_x, 0, obst_buff[i].obst_zpos);
 
-            draw_tree();
+            (obst_buff[i].tree_type == 0) ? draw_tree_1() : draw_tree_2();
             // glutSolidCube(1);
 
           glPopMatrix();
@@ -98,25 +98,25 @@ void special_input(int key, int x, int y) {
   switch(key) 
   {
     case GLUT_KEY_LEFT:
-      if (player_x > 1)
+      if (player_x > 1 && animation_active == 1)
         player_x -= 2.0;
       glutPostRedisplay();
       break;
 
     case GLUT_KEY_RIGHT:
-      if (player_x < 5)
+      if (player_x < 5 && animation_active == 1)
         player_x += 2.0;
       glutPostRedisplay();
       break;
 
     case GLUT_KEY_UP:
-      if (player_z > -2)
+      if (player_z > -2 && animation_active == 1)
         player_z -= 2.0;
       glutPostRedisplay();
       break;
 
     case GLUT_KEY_DOWN:
-      if (player_z < 0)
+      if (player_z < 0 && animation_active == 1)
         player_z += 2.0;
       glutPostRedisplay();
       break;
@@ -137,28 +137,28 @@ void on_keyboard(unsigned char key, int x, int y)
 
     case 'a':
     case 'A':
-      if (player_x > 1)
+      if (player_x > 1 && animation_active == 1)
         player_x -= 2.0;
       glutPostRedisplay();
       break;
 
     case 'd':
     case 'D':
-      if (player_x < 5)
+      if (player_x < 5 && animation_active == 1)
         player_x += 2.0;
       glutPostRedisplay();
       break;
 
     case 'w':
     case 'W':
-      if (player_z > -2)
+      if (player_z > -2 && animation_active == 1)
         player_z -= 2.0;
       glutPostRedisplay();
       break;
 
     case 's':
     case 'S':
-      if (player_z < 0)
+      if (player_z < 0 && animation_active == 1)
         player_z += 2.0;
       glutPostRedisplay();
       break;

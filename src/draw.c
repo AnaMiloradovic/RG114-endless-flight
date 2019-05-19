@@ -82,8 +82,6 @@ void draw_plane(){
 
 void set_normal_and_vertex_cylinder(float u, float v)
 {
-    // pravilno bi bilo y = 0 za normalu,
-    // ovako je render lepsi
     glNormal3f(
             sin(v),
             0,
@@ -96,21 +94,21 @@ void set_normal_and_vertex_cylinder(float u, float v)
             );
 }
 
-void set_normal_and_vertex_sphere(float u, float v)
+void set_normal_and_vertex_cone(float u, float v)
 {
     glNormal3f(
-            sin(u) * sin(v),
-            cos(u),
-            sin(u) * cos(v)
+            -u * sin(v),
+            -u,
+            u * cos(v)
             );
     glVertex3f(
-            sin(u) * sin(v),
-            cos(u),
-            sin(u) * cos(v)
+            u / 10 * sin(v),
+            u,
+            u / 10 * cos(v)
             );
 }
 
-void draw_tree(){
+void draw_tree_1(){
     float u, v;
 
     glPushMatrix();
@@ -133,6 +131,42 @@ void draw_tree(){
             glScalef(0.8, 1.5, 0.8);
             // crtamo krosnju
             glutSolidSphere(0.5, 40, 40);
+        glPopMatrix();
+
+    glPopMatrix();
+}
+
+void draw_tree_2(){
+    float u, v;
+
+    glPushMatrix();
+
+        glPushMatrix();
+            glScalef(0.1, 1, 0.1);
+            // crtamo stablo
+            for (u = 0; u < 1; u += M_PI / 20) {
+                glBegin(GL_TRIANGLE_STRIP);
+                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
+                    set_normal_and_vertex_cylinder(u, v);
+                    set_normal_and_vertex_cylinder(u + M_PI / 20, v);
+                }
+                glEnd();
+            }
+        glPopMatrix();
+
+        glPushMatrix();
+            glRotatef(180, 0, 0, 1);
+            glTranslatef(0, -3.5, 0);
+            // glScalef(0.8, 1.5, 0.8);
+            // crtamo krosnju
+            for (u = 0; u < M_PI; u += M_PI / 20) {
+                glBegin(GL_TRIANGLE_STRIP);
+                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
+                    set_normal_and_vertex_cone(u, v);
+                    set_normal_and_vertex_cone(u + M_PI / 20, v);
+                }
+                glEnd();
+            }
         glPopMatrix();
 
     glPopMatrix();

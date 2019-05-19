@@ -7,6 +7,7 @@
 #include <time.h>
 #include <GL/glut.h>
 #include <math.h>
+#include <stdbool.h> 
 
 #include "draw.h"
 #include "callbacks.h"

@@ -2,8 +2,20 @@
 
 void on_display(void)
 {
-  /* Pozicija svetla (u pitanju je beskonacno daleko svetlo). */
-  // GLfloat light_position[] = {1, 10, 1, 0};
+  /* Pozicija svetla (u pitanju je ambijentalno svetlo). */
+    GLfloat light_position[] = { 0, 10, 10, 1 };
+
+    /* Ambijentalna boja svetla. */
+    GLfloat light_ambient[] = { 0, 0, 0, 1 };
+
+    /* Difuzna boja svetla. */
+    GLfloat light_diffuse[] = { 1, 1, 1, 1 };
+
+    /* Koeficijenti ambijentalne refleksije materijala. */
+    GLfloat ambient_coeffs[] = { 0.3, 1, 0, 1 };
+
+    /* Koeficijenti difuzne refleksije materijala. */
+    GLfloat diffuse_coeffs[] = { 0, 1, 0, 1 };
 
   /* Brise se prethodni sadrzaj prozora. */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -12,6 +24,21 @@ void on_display(void)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(3.0, 2.5, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+
+  /* Ukljucuje se osvjetljenje i podesavaju parametri svetla. */
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+
+  /* Podesavaju se parametri materijala. */
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
+
+  glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,1);
+
+  glShadeModel(GL_SMOOTH);
 
   /* Kreira se objekat. */
   draw_plane();
@@ -30,40 +57,25 @@ void on_display(void)
         {
           int obst_x = 1+2*j;
 
+          // draw_obstacle();
           glPushMatrix();
 
             glColor3f(1, 0, 1);
-
-            // static GLfloat material_ambient[] = { 0.9, 0.9, 0.9, 1 };
-            // static GLfloat material_diffuse[] = { 1, 1, 1, 1 };
-
-            // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient);
-            // glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
-
+            // glScalef(1, 10, 1);
             glTranslatef(obst_x, 0, obst_buff[i].obst_zpos);
-            glutSolidSphere(0.3, 40, 40);
+
+            draw_tree();
+            // glutSolidCube(1);
 
           glPopMatrix();
 
-          // check_collision();
-          if ((obst_buff[i].obst_zpos > (player_z-0.2))&&(obst_buff[i].obst_zpos < (player_z+0.2)) && obst_x == player_x)
-          {
-            printf("-------------\n");
-            printf("--GAME OVER--\n");
-            printf("-------------\n");
-            printf("SCORE: %d\n", score);
-            printf("-------------\n");
-            exit(EXIT_FAILURE);
-          }
+          // Checking for collisons
+          if (collided(player_z, obst_buff[i].obst_zpos, player_x, obst_x))
+            process_collision();
         }            
       }       
     }
   }
-  
-
-  glShadeModel(GL_SMOOTH);
-
-  // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
   /* Nova slika se salje na ekran. */
   glutSwapBuffers();
@@ -172,6 +184,7 @@ void on_timer(int value)
     return;
 
   animation_parameter += .01;
+  y_param += 0.1;
 
   //TODO
   //Pomeranje prepreka
@@ -188,12 +201,9 @@ void on_timer(int value)
           if (obst_buff[i].obst[j] == 1)
             score++;
         }
-        // dequeue(obst_buff, &obst_buff_head);
-        // Obstacle_row new = new_obstacle_row();
+       
         obst_buff[i].obst_zpos = -758.0;
-        // enqueue(obst_buff, &obst_buff_tail, new);
-      }
-      
+      }      
   }
 
   // printf("zpos: %f\n", obst_buff[0].obst_zpos);

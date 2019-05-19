@@ -1,23 +1,24 @@
 #include "include/draw.h"
 
-
-
 void draw_track(){
     glPushMatrix();
 
-        // static GLfloat material_ambient[] = { 0, 1, 0, 1 };
-        // static GLfloat material_diffuse[] = { 0, 1, 0, 1 };
-
-        // glMaterialfv(GL_FRONT, GL_AMBIENT, material_ambient);
-        // glMaterialfv(GL_FRONT, GL_DIFFUSE, material_diffuse);
-
         glColor3f(0.3, 1, 0);
+
+        GLfloat ambient_coeffs[] = { 1, 1, 0, 1 };
+        GLfloat diffuse_coeffs[] = { 0.2, 1, 0, 1 };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
+
         glLineWidth(10);
         glBegin(GL_QUADS);
-            glNormal3f(0, 1, 0);
+            glNormal3f(0, -1, 0);
             glVertex3f(0, 0, 10);
+            glNormal3f(0, -1, 0);           
             glVertex3f(0, 0, -100);
+            glNormal3f(0, -1, 0);
             glVertex3f(6, 0, -100);
+            glNormal3f(0, -1, 0);
             glVertex3f(6, 0, 10);
         glEnd();
 
@@ -27,33 +28,112 @@ void draw_track(){
 void draw_plane(){
     glPushMatrix();
 
-        glColor3f(0, 0, 1);
-        glTranslatef(player_x, 0, player_z);
-        glTranslatef(0, 0, 1);
+        // glColor3f(0, 0, 1);
+        GLfloat ambient_coeffs[] = { 0.8, 0.8, 0.85, 1 };
+        GLfloat diffuse_coeffs[] = { 0.9, 0.9, 0.95, 1 };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
+
+        glTranslatef(player_x, 0.2 + cos(y_param)/5, player_z);
+
         glScalef(0.25, 0.25, 0.25);
 
-        // static GLfloat material_ambient[] = { 0, 0, 0, 1 };
-        // static GLfloat material_diffuse[] = { 0, 1, 0, 1 };
+        float v0[] = {0, 0, -5};
+        float v1[] = {-3, 1-cos(y_param), 0.5};
+        float v2[] = {-0.25, 1, 0};
+        float v3[] = {0, 0, 0};
+        float v4[] = {0.25, 1, 0};
+        float v5[] = {3, 1-cos(y_param), 0.5};
 
-        // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient);
-        // glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
+        glBegin(GL_TRIANGLES);
+            glNormal3f(0,1,0);
+            glVertex3fv(v0);  
+            glNormal3f(0,1,0);         
+            glVertex3fv(v1); 
+            glNormal3f(0,1,0);           
+            glVertex3fv(v2);
 
-        glBegin(GL_TRIANGLE_FAN);
-            
-            glVertex3f(0, 0, -5);
-           
-            glVertex3f(-3, 1, 0.5);
-            
-            glVertex3f(-0.25, 1, 0);
-            
-            glVertex3f(0, 0, 0);
-            
-            glVertex3f(0.25, 1, 0);
-            
-            glVertex3f(3, 1, 0.5);
+            glNormal3f(0,0.5,0);
+            glVertex3fv(v0);   
+            glNormal3f(0,0.5,0);        
+            glVertex3fv(v2);
+            glNormal3f(0,0.5,0);            
+            glVertex3fv(v3);
+
+            glNormal3f(0,-0.5,0);
+            glVertex3fv(v0);  
+            glNormal3f(0,-0.5,0);         
+            glVertex3fv(v3); 
+            glNormal3f(0,-0.5,0);           
+            glVertex3fv(v4);
+
+            glNormal3f(0,1,0);
+            glVertex3fv(v0); 
+            glNormal3f(0,1,0);           
+            glVertex3fv(v4);
+            glNormal3f(0,1,0);            
+            glVertex3fv(v5);
         glEnd();
 
         // glutSolidSphere(0.5, 40, 40);
+
+    glPopMatrix();
+}
+
+void set_normal_and_vertex_cylinder(float u, float v)
+{
+    // pravilno bi bilo y = 0 za normalu,
+    // ovako je render lepsi
+    glNormal3f(
+            sin(v),
+            0,
+            cos(v)
+            );
+    glVertex3f(
+            sin(v),
+            u,
+            cos(v)
+            );
+}
+
+void set_normal_and_vertex_sphere(float u, float v)
+{
+    glNormal3f(
+            sin(u) * sin(v),
+            cos(u),
+            sin(u) * cos(v)
+            );
+    glVertex3f(
+            sin(u) * sin(v),
+            cos(u),
+            sin(u) * cos(v)
+            );
+}
+
+void draw_tree(){
+    float u, v;
+
+    glPushMatrix();
+
+        glPushMatrix();
+            glScalef(0.1, 1, 0.1);
+            // crtamo stablo
+            for (u = 0; u < 1; u += M_PI / 20) {
+                glBegin(GL_TRIANGLE_STRIP);
+                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
+                    set_normal_and_vertex_cylinder(u, v);
+                    set_normal_and_vertex_cylinder(u + M_PI / 20, v);
+                }
+                glEnd();
+            }
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(0, 1, 0);
+            glScalef(0.8, 1.5, 0.8);
+            // crtamo krosnju
+            glutSolidSphere(0.5, 40, 40);
+        glPopMatrix();
 
     glPopMatrix();
 }

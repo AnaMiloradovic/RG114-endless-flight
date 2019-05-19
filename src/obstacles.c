@@ -121,3 +121,32 @@ void init_obstacles()
         obst_buff[i].obst_zpos = - FAR_CLIP_PLANE - 6*i;
     }  
 }
+
+bool is_in_range(float x, float low, float high){
+    if (x < low || x > high)
+    {
+        return false;
+    }
+
+    return true;    
+}
+
+bool collided(float player_z, float obst_z, int player_x, int obst_x)
+{
+    float range_buff = 0.2;
+
+    if(is_in_range(player_z, obst_z-range_buff, obst_z+range_buff) && player_x == obst_x)
+        return true;
+    
+    return false;
+}
+
+void process_collision()
+{
+    printf("-------------\n");
+    printf("--GAME OVER--\n");
+    printf("-------------\n");
+    printf("SCORE: %d\n", score);
+    printf("-------------\n");
+    exit(EXIT_FAILURE);
+}

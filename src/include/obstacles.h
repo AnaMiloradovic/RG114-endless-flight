@@ -67,8 +67,12 @@ void pop_front_row(void);
 // function new_obstacle_row
 void add_new_row(Obstacle_row new_row);
 
+bool is_in_range(float low, float high, float x);
+
 // Function that stops game if collision
 // between player and obstacle from row occurs
-void check_collisions(Obstacle_row r);
+bool collided(float player_z, float obst_z, int player_x, int obst_x);
+
+void process_collision();
 
 #endif

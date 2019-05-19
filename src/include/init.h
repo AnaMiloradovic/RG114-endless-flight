@@ -8,6 +8,7 @@
 #include <GL/glut.h>
 #include <math.h>
 
+#include "draw.h"
 #include "callbacks.h"
 #include "indicators.h"
 

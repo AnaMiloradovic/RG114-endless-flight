@@ -9,6 +9,7 @@ extern int player_z;
 extern int animation_active;
 //Time elapsed since animation start
 extern float animation_parameter;
+extern int score;
 
 extern int err_indicator;
 

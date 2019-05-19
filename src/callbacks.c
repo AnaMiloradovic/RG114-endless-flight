@@ -2,29 +2,8 @@
 
 void on_display(void)
 {
-  // /* Pozicija svetla (u pitanju je direkcionalno svetlo). */
-  // GLfloat light_position[] = {1, 1, 1, 0};
-
-  // /* Ambijentalna boja svetla. */
-  // GLfloat light_ambient[] = {0.9, 0.9, 0.9, 1};
-
-  // /* Difuzna boja svetla. */
-  // GLfloat light_diffuse[] = {0, 0, 0, 1};
-
-  // /* Spekularna boja svetla. */
-  // GLfloat light_specular[] = {0.9, 0.9, 0.9, 1};
-
-  // /* Koeficijenti ambijentalne refleksije materijala. */
-  // GLfloat ambient_coeffs[] = {1.0, 0.5, 0.1, 1};
-
-  // /* Koeficijenti difuzne refleksije materijala. */
-  // GLfloat diffuse_coeffs[] = {0.0, 0.0, 0.8, 1};
-
-  // /* Koeficijenti spekularne refleksije materijala. */
-  // GLfloat specular_coeffs[] = {1, 1, 1, 1};
-
-  // /* Koeficijent glatkosti materijala. */
-  // GLfloat shininess = 10;
+  /* Pozicija svetla (u pitanju je beskonacno daleko svetlo). */
+  // GLfloat light_position[] = {1, 10, 1, 0};
 
   /* Brise se prethodni sadrzaj prozora. */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -34,75 +13,57 @@ void on_display(void)
   glLoadIdentity();
   gluLookAt(3.0, 2.5, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 
-  // /* Ukljucuje se osvjetljenje i podesavaju parametri svetla. */
-  // glEnable(GL_LIGHTING);
-  // glEnable(GL_LIGHT0);
-  // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  // glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-  // glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-  // glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-  // /* Podesavaju se parametri materijala. */
-  // glMaterialfv(GL_FRONT, GL_AMBIENT, ambient_coeffs);
-  // glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse_coeffs);
-  // glMaterialfv(GL_FRONT, GL_SPECULAR, specular_coeffs);
-  // glMaterialf(GL_FRONT, GL_SHININESS, shininess);
-
   /* Kreira se objekat. */
-  // TODO
-  // Create paper plane function
-  glPushMatrix();
-    glColor3f(0, 1, 0);
-    glTranslatef(player_x, 0, player_z);
-    glutSolidSphere(0.8, 40, 40);
-  glPopMatrix();
+  draw_plane();
 
-  glLineWidth(10);
-  glBegin(GL_LINES);
-    glVertex3f(0, 0, 10);
-    glVertex3f(0, 0, -100);
-  glEnd();
+  draw_track();
 
-  glBegin(GL_LINES);
-    glVertex3f(6, 0, 10);
-    glVertex3f(6, 0, -100);
-  glEnd();
-
-  //TODO
   //Iscrtaj prepreke
+  int i;
+  for (i = 0; i < OBST_BUFF_SIZE; i++)
   {
-    int i;
-    for (i = 0; i < OBST_BUFF_SIZE; i++)
+    if (obst_buff[i].obst_zpos < 10)
     {
-      if (obst_buff[i].obst_zpos < 10)
-      {
-        for(int j=0; j<3; j++)
-        {          
-          if (obst_buff[i].obst[j] == 1)
-          {
-            int obst_x = 1+2*j;
+      for(int j=0; j<3; j++)
+      {          
+        if (obst_buff[i].obst[j] == 1)
+        {
+          int obst_x = 1+2*j;
 
-            glPushMatrix();
-            glColor3f(1, 0, 0);
+          glPushMatrix();
+
+            glColor3f(1, 0, 1);
+
+            // static GLfloat material_ambient[] = { 0.9, 0.9, 0.9, 1 };
+            // static GLfloat material_diffuse[] = { 1, 1, 1, 1 };
+
+            // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient);
+            // glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
+
             glTranslatef(obst_x, 0, obst_buff[i].obst_zpos);
             glutSolidSphere(0.3, 40, 40);
-            glPopMatrix();
 
-            // check_collision();
-            if ((obst_buff[i].obst_zpos > (player_z-0.2))&&(obst_buff[i].obst_zpos < (player_z+0.2)) && obst_x == player_x)
-            {
-              printf("-------------\n");
-              printf("--GAME OVER--\n");
-              printf("-------------\n");
-              exit(EXIT_FAILURE);
-            }
-          }            
-        }       
-      }
+          glPopMatrix();
+
+          // check_collision();
+          if ((obst_buff[i].obst_zpos > (player_z-0.2))&&(obst_buff[i].obst_zpos < (player_z+0.2)) && obst_x == player_x)
+          {
+            printf("-------------\n");
+            printf("--GAME OVER--\n");
+            printf("-------------\n");
+            printf("SCORE: %d\n", score);
+            printf("-------------\n");
+            exit(EXIT_FAILURE);
+          }
+        }            
+      }       
     }
   }
+  
 
   glShadeModel(GL_SMOOTH);
+
+  // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
   /* Nova slika se salje na ekran. */
   glutSwapBuffers();
@@ -121,52 +82,88 @@ void on_reshape(int width, int height)
   glMatrixMode(GL_MODELVIEW);
 }
 
+void special_input(int key, int x, int y) {
+  switch(key) 
+  {
+    case GLUT_KEY_LEFT:
+      if (player_x > 1)
+        player_x -= 2.0;
+      glutPostRedisplay();
+      break;
+
+    case GLUT_KEY_RIGHT:
+      if (player_x < 5)
+        player_x += 2.0;
+      glutPostRedisplay();
+      break;
+
+    case GLUT_KEY_UP:
+      if (player_z > -2)
+        player_z -= 2.0;
+      glutPostRedisplay();
+      break;
+
+    case GLUT_KEY_DOWN:
+      if (player_z < 0)
+        player_z += 2.0;
+      glutPostRedisplay();
+      break;
+      
+  }
+}
+
 void on_keyboard(unsigned char key, int x, int y)
 {
   switch (key)
   {
-  case 27:
-    /* Zavrsava se program. */
-    exit(0);
-    break;
+    case 27:
+    case 'q':
+    case 'Q':
+      /* Zavrsava se program. */
+      exit(0);
+      break;
 
-  case 'a':
-  case 'A':
-    if (player_x > 1)
-      player_x -= 2.0;
-    glutPostRedisplay();
-    break;
+    case 'a':
+    case 'A':
+      if (player_x > 1)
+        player_x -= 2.0;
+      glutPostRedisplay();
+      break;
 
-  case 'd':
-  case 'D':
-    if (player_x < 5)
-      player_x += 2.0;
-    glutPostRedisplay();
-    break;
+    case 'd':
+    case 'D':
+      if (player_x < 5)
+        player_x += 2.0;
+      glutPostRedisplay();
+      break;
 
-  case 'w':
-  case 'W':
-    if (player_z > -2)
-      player_z -= 2.0;
-    glutPostRedisplay();
-    break;
+    case 'w':
+    case 'W':
+      if (player_z > -2)
+        player_z -= 2.0;
+      glutPostRedisplay();
+      break;
 
-  case 's':
-  case 'S':
-    if (player_z < 0)
-      player_z += 2.0;
-    glutPostRedisplay();
-    break;
+    case 's':
+    case 'S':
+      if (player_z < 0)
+        player_z += 2.0;
+      glutPostRedisplay();
+      break;
 
-  case 'n':
-  case 'N':
-    if (!animation_active)
-    {
-      glutTimerFunc(50, on_timer, 0);
-      animation_active = 1;
+    case 'n':
+    case 'N':
+      if (!animation_active)
+      {
+        glutTimerFunc(50, on_timer, 0);
+        animation_active = 1;
+      }
+      else
+      {
+        animation_active = 0;
+      }
+      break;
     }
-    break;
-  }
 }
 
 void on_timer(int value)
@@ -176,19 +173,21 @@ void on_timer(int value)
 
   animation_parameter += .01;
 
-  glutPostRedisplay();
-
   //TODO
   //Pomeranje prepreka
   {
     int i;
     for (i = 0; i < OBST_BUFF_SIZE; i++)
-      if (obst_buff[i].obst_zpos < 10)
+      if (obst_buff[i].obst_zpos < 1)
       {
         obst_buff[i].obst_zpos += animation_parameter * .1;
       } 
       else
       {
+        for(int j = 0; j < 3; j++){
+          if (obst_buff[i].obst[j] == 1)
+            score++;
+        }
         // dequeue(obst_buff, &obst_buff_head);
         // Obstacle_row new = new_obstacle_row();
         obst_buff[i].obst_zpos = -758.0;
@@ -198,6 +197,8 @@ void on_timer(int value)
   }
 
   // printf("zpos: %f\n", obst_buff[0].obst_zpos);
+
+  glutPostRedisplay();
 
   //Po potrebi se ponovo postavlja timer
   if (animation_active)

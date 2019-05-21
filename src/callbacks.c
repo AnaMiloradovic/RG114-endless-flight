@@ -184,7 +184,7 @@ void on_timer(int value)
     return;
 
   animation_parameter += .01;
-  y_param += 0.1;
+  y_param += 0.2;
 
   //TODO
   //Pomeranje prepreka

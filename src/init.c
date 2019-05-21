@@ -2,11 +2,14 @@
 
 int err_indicator = 0;
 
-int player_x = 3;
+float player_x = 3.0;
+int player_x_desired = 3;
 int player_z = 0;
 float y_param = 0;
 
 int animation_active = 0;
+int animation_active_left = 0;
+int animation_active_right = 0;
 float animation_parameter = 0;
 int score = 0;
 

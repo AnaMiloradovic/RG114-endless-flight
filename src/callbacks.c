@@ -77,6 +77,8 @@ void on_display(void)
     }
   }
 
+  display_score();
+
   /* Nova slika se salje na ekran. */
   glutSwapBuffers();
 }
@@ -98,15 +100,33 @@ void special_input(int key, int x, int y) {
   switch(key) 
   {
     case GLUT_KEY_LEFT:
-      if (player_x > 1 && animation_active == 1)
-        player_x -= 2.0;
-      glutPostRedisplay();
+      // if (player_x > 1 && animation_active == 1)
+      //   player_x -= 2.0;
+      // glutPostRedisplay();
+      // break;
+      if(animation_active == 1){
+        animation_active_right = 0;
+        if (animation_active_left == 0 && player_x_desired > 1){
+          player_x_desired -= 2;
+          animation_active_left = 1;
+          glutTimerFunc(TIME, move_left, TIMER_ID);
+        }        
+      }
       break;
 
     case GLUT_KEY_RIGHT:
-      if (player_x < 5 && animation_active == 1)
-        player_x += 2.0;
-      glutPostRedisplay();
+      // if (player_x < 5 && animation_active == 1)
+      //   player_x += 2.0;
+      // glutPostRedisplay();
+      // break;
+      if(animation_active == 1){
+        animation_active_left = 0;
+        if (animation_active_right == 0 && player_x_desired < 5){
+          player_x_desired += 2;
+          animation_active_right = 1;
+          glutTimerFunc(TIME, move_right, TIMER_ID);
+        }        
+      }
       break;
 
     case GLUT_KEY_UP:
@@ -137,16 +157,26 @@ void on_keyboard(unsigned char key, int x, int y)
 
     case 'a':
     case 'A':
-      if (player_x > 1 && animation_active == 1)
-        player_x -= 2.0;
-      glutPostRedisplay();
+     if(animation_active == 1){
+        animation_active_right = 0;
+        if (animation_active_left == 0 && player_x_desired > 1){
+          player_x_desired -= 2;
+          animation_active_left = 1;
+          glutTimerFunc(TIME, move_left, TIMER_ID);
+        }        
+      }
       break;
 
     case 'd':
     case 'D':
-      if (player_x < 5 && animation_active == 1)
-        player_x += 2.0;
-      glutPostRedisplay();
+      if(animation_active == 1){
+        animation_active_left = 0;
+        if (animation_active_right == 0 && player_x_desired < 5){
+          player_x_desired += 2;
+          animation_active_right = 1;
+          glutTimerFunc(TIME, move_right, TIMER_ID);
+        }        
+      }
       break;
 
     case 'w':
@@ -167,8 +197,8 @@ void on_keyboard(unsigned char key, int x, int y)
     case 'N':
       if (!animation_active)
       {
-        glutTimerFunc(50, on_timer, 0);
         animation_active = 1;
+        glutTimerFunc(TIME, on_timer, TIMER_ID);
       }
       else
       {
@@ -180,7 +210,7 @@ void on_keyboard(unsigned char key, int x, int y)
 
 void on_timer(int value)
 {
-  if (value != 0)
+  if (value != TIMER_ID)
     return;
 
   animation_parameter += .01;
@@ -212,5 +242,39 @@ void on_timer(int value)
 
   //Po potrebi se ponovo postavlja timer
   if (animation_active)
-    glutTimerFunc(50, on_timer, 0);
+    glutTimerFunc(TIME, on_timer, TIMER_ID);
+}
+
+void move_right(int value){
+  if (value != TIMER_ID)
+  return;
+  
+  player_x += 0.5;
+
+  if(player_x == player_x_desired)
+    animation_active_right = 0;
+
+  if(animation_active_right)
+    glutTimerFunc(TIME, move_right, TIMER_ID);
+
+  glutPostRedisplay();  
+}
+
+void move_left(int value){
+  if (value != TIMER_ID)
+  return;
+  
+  player_x -= 0.5;
+
+  if(player_x == player_x_desired)
+    animation_active_left = 0;
+
+  if(animation_active_left)
+    glutTimerFunc(TIME, move_left, TIMER_ID);
+
+  glutPostRedisplay();
+}
+
+void display_score(){
+  
 }

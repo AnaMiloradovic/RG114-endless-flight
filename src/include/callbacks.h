@@ -9,5 +9,8 @@ void on_reshape(int width, int height);
 void special_input(int key, int x, int y);
 void on_keyboard(unsigned char key, int x, int y);
 void on_timer(int value);
+void move_right(int value);
+void move_left(int value);
+void display_score();
 
 #endif

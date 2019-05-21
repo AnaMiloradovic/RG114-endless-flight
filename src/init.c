@@ -26,7 +26,7 @@ void glut_init(int *argc, char **argv)
     glutSetIconTitle("Endless Flight");
 
     // Start game in full screen mode
-    // glutFullScreen();
+    glutFullScreen();
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0.35, 1, 1);

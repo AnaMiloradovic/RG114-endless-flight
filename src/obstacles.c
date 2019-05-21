@@ -144,11 +144,7 @@ bool collided(float player_z, float obst_z, int player_x, int obst_x)
 }
 
 void process_collision()
-{
-    printf("-------------\n");
-    printf("--GAME OVER--\n");
-    printf("-------------\n");
-    printf("SCORE: %d\n", score);
-    printf("-------------\n");
-    exit(EXIT_FAILURE);
+{ 
+    animation_active = 0;
+    
 }

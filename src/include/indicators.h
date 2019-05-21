@@ -17,7 +17,9 @@ extern int animation_active_right;
 //Time elapsed since animation start
 extern float animation_parameter;
 
-extern int score;
+extern int speed;
+
+extern float score;
 
 extern int err_indicator;
 

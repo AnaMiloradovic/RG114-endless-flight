@@ -11,10 +11,10 @@ int animation_active = 0;
 int animation_active_left = 0;
 int animation_active_right = 0;
 float animation_parameter = 0;
-int score = 0;
+float score = 0;
+int speed = 1;
 
-void glut_init(int *argc, char **argv)
-{
+void glut_init(int *argc, char **argv){
     // GLUT init
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -36,8 +36,7 @@ void glut_init(int *argc, char **argv)
     glEnable(GL_NORMALIZE);
 }
 
-void callbacks_init()
-{
+void callbacks_init(){
     glutDisplayFunc(&on_display);
     glutReshapeFunc(&on_reshape);
     glutSpecialFunc(special_input);

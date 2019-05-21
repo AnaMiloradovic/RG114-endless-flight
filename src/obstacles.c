@@ -107,8 +107,7 @@ void display(Obstacle_row *q,int head,int tail)
 /* --- QUEUE FUNCTIONS END --- */
 /* -------------------------------- */
 
-void init_obstacles()
-{
+void init_obstacles(){
     init(&obst_buff_head, &obst_buff_tail);
 
     // Adding OBST_BUFF_SIZE of elements to the queue
@@ -133,8 +132,7 @@ bool is_in_range(float x, float low, float high){
     return true;    
 }
 
-bool collided(float player_z, float obst_z, int player_x, int obst_x)
-{
+bool collided(float player_z, float obst_z, int player_x, int obst_x){
     float range_buff = 0.2;
 
     if(is_in_range(player_z, obst_z-range_buff, obst_z+range_buff) && player_x == obst_x)
@@ -143,8 +141,7 @@ bool collided(float player_z, float obst_z, int player_x, int obst_x)
     return false;
 }
 
-void process_collision()
-{ 
+void process_collision(){ 
     animation_active = 0;
     
 }

@@ -26,9 +26,17 @@ void draw_track(){
 }
 
 void draw_plane(){
+
+    float v0[] = {0, 0, -5};
+    float v1[] = {-3, 1-cos(y_param*speed), 0.5};
+    float v2[] = {-0.25, 1, 0};
+    float v3[] = {0, 0, 0};
+    float v4[] = {0.25, 1, 0};
+    float v5[] = {3, 1-cos(y_param*speed), 0.5};
+
     glPushMatrix();
 
-        GLfloat ambient_coeffs_plane[] = { 0.8, 0.8, 0.85, 1 };
+        GLfloat ambient_coeffs_plane[] = { 0.8, 0.8, 0.85, 0.5 };
         GLfloat diffuse_coeffs_plane[] = { 0.9, 0.9, 0.95, 1 };
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs_plane);
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_plane);
@@ -37,33 +45,26 @@ void draw_plane(){
 
         glScalef(0.2, 0.2, 0.2);
 
-        float v0[] = {0, 0, -5};
-        float v1[] = {-3, 1-cos(y_param), 0.5};
-        float v2[] = {-0.25, 1, 0};
-        float v3[] = {0, 0, 0};
-        float v4[] = {0.25, 1, 0};
-        float v5[] = {3, 1-cos(y_param), 0.5};
-
         glBegin(GL_TRIANGLES);
             glNormal3f(0,1,0);
             glVertex3fv(v0);  
-            glNormal3f(0,1,0);         
+            // glNormal3f(0,1,0);         
             glVertex3fv(v1); 
-            glNormal3f(0,1,0);           
+            // glNormal3f(0,1,0);           
             glVertex3fv(v2);
 
-            glNormal3f(0,0.5,0);
+            glNormal3f(1,0.25,0);
             glVertex3fv(v0);   
-            glNormal3f(0,0.5,0);        
+            // glNormal3f(0,0.5,0);        
             glVertex3fv(v2);
-            glNormal3f(0,0.5,0);            
+            // glNormal3f(0,0.5,0);            
             glVertex3fv(v3);
 
-            glNormal3f(0,-0.5,0);
+            glNormal3f(-1,0.25,0);
             glVertex3fv(v0);  
-            glNormal3f(0,-0.5,0);         
+            // glNormal3f(0,-0.5,0);         
             glVertex3fv(v3); 
-            glNormal3f(0,-0.5,0);           
+            // glNormal3f(0,-0.5,0);           
             glVertex3fv(v4);
 
             glNormal3f(0,1,0);
@@ -73,8 +74,6 @@ void draw_plane(){
             glNormal3f(0,1,0);            
             glVertex3fv(v5);
         glEnd();
-
-        // glutSolidSphere(0.5, 40, 40);
 
     glPopMatrix();
 }

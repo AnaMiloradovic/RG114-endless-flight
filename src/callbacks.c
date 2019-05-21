@@ -23,7 +23,7 @@ void on_display(void)
   /* Podesava se vidna tacka. */
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(3.0, 2.5, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+  gluLookAt(3.0, 2.55, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 
   /* Ukljucuje se osvjetljenje i podesavaju parametri svetla. */
   glEnable(GL_LIGHTING);

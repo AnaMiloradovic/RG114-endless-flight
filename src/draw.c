@@ -28,15 +28,14 @@ void draw_track(){
 void draw_plane(){
     glPushMatrix();
 
-        // glColor3f(0, 0, 1);
-        GLfloat ambient_coeffs[] = { 0.8, 0.8, 0.85, 1 };
-        GLfloat diffuse_coeffs[] = { 0.9, 0.9, 0.95, 1 };
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
+        GLfloat ambient_coeffs_plane[] = { 0.8, 0.8, 0.85, 1 };
+        GLfloat diffuse_coeffs_plane[] = { 0.9, 0.9, 0.95, 1 };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs_plane);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_plane);
 
-        glTranslatef(player_x, 0.2 + cos(y_param)/5, player_z);
+        glTranslatef(player_x, 0.2 + cos(y_param)/5, player_z+1);
 
-        glScalef(0.25, 0.25, 0.25);
+        glScalef(0.2, 0.2, 0.2);
 
         float v0[] = {0, 0, -5};
         float v1[] = {-3, 1-cos(y_param), 0.5};
@@ -80,93 +79,58 @@ void draw_plane(){
     glPopMatrix();
 }
 
-void set_normal_and_vertex_cylinder(float u, float v)
-{
-    glNormal3f(
-            sin(v),
-            0,
-            cos(v)
-            );
-    glVertex3f(
-            sin(v),
-            u,
-            cos(v)
-            );
-}
-
-void set_normal_and_vertex_cone(float u, float v)
-{
-    glNormal3f(
-            -u * sin(v),
-            -u,
-            u * cos(v)
-            );
-    glVertex3f(
-            u / 10 * sin(v),
-            u,
-            u / 10 * cos(v)
-            );
-}
-
 void draw_tree_1(){
-    float u, v;
 
     glPushMatrix();
 
+        // Drawing tree
         glPushMatrix();
-            glScalef(0.1, 1, 0.1);
-            // crtamo stablo
-            for (u = 0; u < 1; u += M_PI / 20) {
-                glBegin(GL_TRIANGLE_STRIP);
-                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
-                    set_normal_and_vertex_cylinder(u, v);
-                    set_normal_and_vertex_cylinder(u + M_PI / 20, v);
-                }
-                glEnd();
-            }
-        glPopMatrix();
-
-        glPushMatrix();
+            GLfloat diffuse_coeffs_tree1[] = { 0.169, 0.114, 0.055, 1 };
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_tree1);
             glTranslatef(0, 1, 0);
-            glScalef(0.8, 1.5, 0.8);
-            // crtamo krosnju
-            glutSolidSphere(0.5, 40, 40);
+            glRotatef(90, 1, 0, 0);
+            
+            GLUquadricObj *tree1 = gluNewQuadric();
+            gluCylinder(tree1, 0.1, 0.1, 1, 40, 40);
+        glPopMatrix();
+        
+        // Drawing treetop
+        glPushMatrix();
+            GLfloat diffuse_coeffs_treetop1[] = { 0.0, 0.5, 0.0, 1 };
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_treetop1);
+            glScalef(1, 1, 1);
+            glTranslatef(0, 1.3, 0);
+           
+            glutSolidSphere(0.6, 40, 40);
         glPopMatrix();
 
     glPopMatrix();
 }
 
 void draw_tree_2(){
-    float u, v;
 
     glPushMatrix();
 
+        // Drawing tree
         glPushMatrix();
-            glScalef(0.1, 1, 0.1);
-            // crtamo stablo
-            for (u = 0; u < 1; u += M_PI / 20) {
-                glBegin(GL_TRIANGLE_STRIP);
-                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
-                    set_normal_and_vertex_cylinder(u, v);
-                    set_normal_and_vertex_cylinder(u + M_PI / 20, v);
-                }
-                glEnd();
-            }
+            GLfloat diffuse_coeffs_tree2[] = { 0.396, 0.263, 0.129, 1 };
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_tree2);
+            glTranslatef(0, 1, 0);
+            glRotatef(90, 1, 0, 0);
+
+            GLUquadricObj *tree2 = gluNewQuadric();
+            gluCylinder(tree2, 0.1, 0.1, 1, 40, 40);
         glPopMatrix();
 
+        // Drawing treetop
         glPushMatrix();
-            glRotatef(180, 0, 0, 1);
-            glTranslatef(0, -3.5, 0);
-            // glScalef(0.8, 1.5, 0.8);
-            // crtamo krosnju
-            for (u = 0; u < M_PI; u += M_PI / 20) {
-                glBegin(GL_TRIANGLE_STRIP);
-                for (v = 0; v <= 2*M_PI + EPSILON; v += M_PI / 20) {
-                    set_normal_and_vertex_cone(u, v);
-                    set_normal_and_vertex_cone(u + M_PI / 20, v);
-                }
-                glEnd();
-            }
+            GLfloat diffuse_coeffs_treetop2[] = { 0.0, 0.19, 0.0, 1 };
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs_treetop2);
+            glTranslatef(0, 0.2, 0);
+            glRotatef(-90, 1, 0, 0);
+            
+            GLUquadricObj *treetop2 = gluNewQuadric();
+            gluCylinder(treetop2, 0.5, 0.0, 2, 40, 40);
         glPopMatrix();
 
     glPopMatrix();

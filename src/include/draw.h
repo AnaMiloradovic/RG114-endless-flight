@@ -3,17 +3,14 @@
 
 #include "init.h"
 
-#define EPSILON 0.01
-
 // Function used to draw game track
 void draw_track();
 
 // Function used to draw paper plane
 void draw_plane();
 
-void set_normal_and_vertex_cylinder(float u, float v);
-
-// Function used to draw obstacles
+// Functions used to draw obstacles
+// (two types of trees)
 void draw_tree_1();
 void draw_tree_2();
 

@@ -6,10 +6,10 @@
 ## :video_game: Komande
 |  Taster|Komanda  |
 |--------|---------|
-|:arrow_left: ili <kbd>A</kbd> |  Skretanje ulevo|
-|:arrow_right: ili <kbd>D</kbd> | Skretanje udesno|
-|:arrow_up: ili <kbd>W</kbd> | Ubrzavanje aviona|
-|:arrow_down: ili <kbd>S</kbd> |Usporavanje aviona|
+|<kbd>&larr;</kbd> ili <kbd>A</kbd> |  Skretanje ulevo|
+|<kbd>&rarr;</kbd> ili <kbd>D</kbd> | Skretanje udesno|
+|<kbd>&uarr;</kbd> ili <kbd>W</kbd> | Ubrzavanje aviona|
+|<kbd>&darr;</kbd> ili <kbd>S</kbd> |Usporavanje aviona|
 |<kbd>Space</kbd> | Pokretanje i pauziranje igre|
 |<kbd>Esc</kbd> ili <kbd>Q</kbd> |Izlaz iz igre|
 | <kbd>R</kbd> |Restartovanje igre|

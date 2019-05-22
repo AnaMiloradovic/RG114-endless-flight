@@ -17,8 +17,10 @@ extern int animation_active_right;
 //Time elapsed since animation start
 extern float animation_parameter;
 
+// Var used to alter airplane speed
 extern int speed;
 
+// Current score
 extern float score;
 
 extern int err_indicator;

@@ -1,5 +1,25 @@
 #include "include/init.h"
 
+
+// Initializing game indicators
+int err_indicator = 0;
+
+float player_x = 3.0;
+int player_x_desired = 3;
+int player_z = 0;
+float y_param = 0.0;
+
+int animation_active = 0;
+int animation_active_left = 0;
+int animation_active_right = 0;
+float animation_parameter = 0.0;
+float score = 0.0;
+int speed = 1;
+bool gameover = false;
+
+char notification_text[] = "Press Space to Start/Resume Game | Press Q to quit";
+
+// Used when we need to restart game
 void indicators_reset(){
     err_indicator = 0;
 
@@ -19,23 +39,6 @@ void indicators_reset(){
 
     strcpy(notification_text, "Press Space to Start/Resume Game | Press Q to quit");
 }
-
-int err_indicator = 0;
-
-float player_x = 3.0;
-int player_x_desired = 3;
-int player_z = 0;
-float y_param = 0;
-
-int animation_active = 0;
-int animation_active_left = 0;
-int animation_active_right = 0;
-float animation_parameter = 0;
-float score = 0;
-int speed = 1;
-bool gameover = false;
-
-char notification_text[] = "Press Space to Start/Resume Game | Press Q to quit";
 
 void glut_init(int *argc, char **argv){
     // GLUT init
@@ -69,6 +72,7 @@ void callbacks_init(){
     glutSetCursor(GLUT_CURSOR_NONE);
 }
 
+
 void init_texture(){
     /* Objekat koji predstavlja teskturu ucitanu iz fajla */
     Image * image;
@@ -94,16 +98,16 @@ void init_texture(){
 
     glBindTexture(GL_TEXTURE_2D, names[0]);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
+                    GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
+                    GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,
                     GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                  image->width, image->height, 0,
-                 GL_BGR, GL_UNSIGNED_BYTE, image->pixels);
+                 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 
 
     /*Iskljucujemo aktivnu teksturu*/
@@ -111,5 +115,5 @@ void init_texture(){
 
     /* Unistava se objekat za citanje tekstura iz fajla. */
     image_done(image);
-    glDisable(GL_TEXTURE_2D);
+    // glDisable(GL_TEXTURE_2D);
 }

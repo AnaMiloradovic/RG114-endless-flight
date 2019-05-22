@@ -119,6 +119,7 @@ void init_obstacles(){
         // Setting zpos to current row
         obst_buff[i].obst_zpos = - FAR_CLIP_PLANE - 6*i;
 
+        // Randomly choosing type of obstacles in current row
         obst_buff[i].tree_type = rand() % 2;
     }  
 }
@@ -131,9 +132,14 @@ bool collided(float player_z, float obst_z, int player_x, int obst_x){
 }
 
 void process_collision(){ 
+    // Stopping the game
     animation_active = 0;
+
+    // Signaling that current game is over
+    // That happens ONLY if collision happened
     gameover = true;
-    // glutPostRedisplay();
+
+    // Displaying notification text for gameover screen
     strcpy(notification_text, "GAME OVER | Press R to Restart game | Press Q to Quit");
     print_notification_text(notification_text);
 }

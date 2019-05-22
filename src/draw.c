@@ -1,30 +1,32 @@
 #include "include/draw.h"
 
 void draw_track(){
-    // // glColor3f(0, 1, 0);
-    // glPushMatrix();
-    //     glEnable(GL_TEXTURE_2D);
-    //     glBindTexture(GL_TEXTURE_2D, names[0]);
-    //     glBegin(GL_POLYGON);
-    //         glNormal3f(0, 1, 0);
+    // glColor3f(0, 1, 0);
+    glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, names[0]);
+        glBegin(GL_QUADS);
+            glNormal3f(0, 1, 0);
 
-    //         glTexCoord2f(0, 0);
-    //         glVertex3f(-100, -0.1, 10);
-    //         glTexCoord2f(0, 1);          
-    //         glVertex3f(-100, -0.1, -100);
-    //         glTexCoord2f(1, 1);
-    //         glVertex3f(106, -0.1, -100);
-    //         glTexCoord2f(1, 0);
-    //         glVertex3f(106, -0.1, 10);
-    //     glEnd();
-    //     glDisable(GL_TEXTURE_2D);
+            glTexCoord2f(0, 0);
+            glVertex3f(-100, -0.1, 10);
+            glTexCoord2f(30, 0);
+            glVertex3f(106, -0.1, 10);          
+            glTexCoord2f(30, 30);
+            glVertex3f(-100, -0.1, -100);
+            glTexCoord2f(0, 30);
+            glVertex3f(106, -0.1, -100);
+            
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
 
-    // glPopMatrix();
+    glPopMatrix();
 
     glPushMatrix();
 
         GLfloat ambient_coeffs[] = { 1, 1, 0, 1 };
-        GLfloat diffuse_coeffs[] = { 0.2, 1, 0, 1 };
+        // GLfloat diffuse_coeffs[] = { 0.2, 1, 0, 1 };
+        GLfloat diffuse_coeffs[] = { 0.86, 0.7, 0.57, 1 };
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
 

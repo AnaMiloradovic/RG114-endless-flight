@@ -3,7 +3,7 @@
 
 #include "init.h"
 
-#define DIRT_TEXTURE "grass.bmp"
+#define DIRT_TEXTURE "src/img/grass.bmp"
 
 GLuint names[1];
 

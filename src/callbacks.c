@@ -14,7 +14,7 @@ void on_display(void)
   // Viewpoint setup
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(3.0, 2.55, 1.5, 3.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+  gluLookAt(3.0, 2.55, 1.5, 3.0, 0.0, -0.9, 0.0, 1.0, 0.0);
 
   // Turning lighting on and setting default light
   glEnable(GL_LIGHTING);
@@ -62,8 +62,10 @@ void on_display(void)
     }
   }
 
+  // Displaying current score
   display_score();
 
+  // Printing text to the middle of the screen
   print_notification_text(notification_text);
 
   // Sending new frame to a screen
@@ -87,6 +89,7 @@ void special_input(int key, int x, int y)
   switch (key)
   {
   case GLUT_KEY_LEFT:
+    // Moving plane to the left if game is running
     if (animation_active == 1)
     {
       animation_active_right = 0;
@@ -100,6 +103,7 @@ void special_input(int key, int x, int y)
     break;
 
   case GLUT_KEY_RIGHT:
+    // Moving plane to the right if game is running
     if (animation_active == 1)
     {
       animation_active_left = 0;
@@ -113,12 +117,14 @@ void special_input(int key, int x, int y)
     break;
 
   case GLUT_KEY_UP:
+    // Speeding plane up
     if (speed < 4 && animation_active == 1)
       speed += 3;
     glutPostRedisplay();
     break;
 
   case GLUT_KEY_DOWN:
+    // Slowing plane down
     if (speed > 0 && animation_active == 1)
       speed -= 3;
     glutPostRedisplay();

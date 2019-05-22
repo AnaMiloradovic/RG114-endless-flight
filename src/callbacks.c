@@ -2,6 +2,7 @@
 
 void on_display(void)
 {
+  // Default light parameters
   GLfloat light_position[] = {0, 10, 10, 1};
   GLfloat light_ambient[] = {0, 0, 0, 1};
   GLfloat light_diffuse[] = {1, 1, 1, 1};
@@ -63,6 +64,8 @@ void on_display(void)
 
   display_score();
 
+  print_notification_text(notification_text);
+
   // Sending new frame to a screen
   glutSwapBuffers();
 }
@@ -77,6 +80,8 @@ void on_reshape(int width, int height)
   glMatrixMode(GL_MODELVIEW);
 }
 
+
+// Enabling arrow keys to be used for plane movement
 void special_input(int key, int x, int y)
 {
   switch (key)
@@ -123,68 +128,82 @@ void special_input(int key, int x, int y)
 
 void on_keyboard(unsigned char key, int x, int y)
 {
-  switch (key)
-  {
-  case 27:
-  case 'q':
-  case 'Q':
-    exit(0);
-    break;
+  switch (key) {
+    // Quitting the game
+    case   27:
+    case 'q':
+    case 'Q':
+      exit(0);
+      break;
 
-  case 'a':
-  case 'A':
-    if (animation_active == 1)
-    {
-      animation_active_right = 0;
-      if (animation_active_left == 0 && player_x_desired > 1)
+    case 'a':
+    case 'A':
+      // Moving plane to the left if game is running
+      if (animation_active == 1)
       {
-        player_x_desired -= 2;
-        animation_active_left = 1;
-        glutTimerFunc(TIME, move_left, TIMER_ID);
+        animation_active_right = 0;
+        if (animation_active_left == 0 && player_x_desired > 1)
+        {
+          player_x_desired -= 2;
+          animation_active_left = 1;
+          glutTimerFunc(TIME, move_left, TIMER_ID);
+        }
       }
-    }
-    break;
+      break;
 
-  case 'd':
-  case 'D':
-    if (animation_active == 1)
-    {
-      animation_active_left = 0;
-      if (animation_active_right == 0 && player_x_desired < 5)
+    case 'd':
+    case 'D':
+      // Moving plane to the right if game is running
+      if (animation_active == 1)
       {
-        player_x_desired += 2;
-        animation_active_right = 1;
-        glutTimerFunc(TIME, move_right, TIMER_ID);
+        animation_active_left = 0;
+        if (animation_active_right == 0 && player_x_desired < 5)
+        {
+          player_x_desired += 2;
+          animation_active_right = 1;
+          glutTimerFunc(TIME, move_right, TIMER_ID);
+        }
       }
-    }
-    break;
+      break;
 
-  case 'w':
-  case 'W':
-    if (speed < 4 && animation_active == 1)
-      speed += 3;
-    glutPostRedisplay();
-    break;
+    case 'w':
+    case 'W':
+      // Speeding plane up
+      if (speed < 4 && animation_active == 1)
+        speed += 3;
+      glutPostRedisplay();
+      break;
 
-  case 's':
-  case 'S':
-    if (speed > 0 && animation_active == 1)
-      speed -= 3;
-    glutPostRedisplay();
-    break;
+    case 's':
+    case 'S':
+      // Slowing plane down
+      if (speed > 0 && animation_active == 1)
+        speed -= 3;
+      glutPostRedisplay();
+      break;
 
-  case ' ':
-    if (!animation_active)
-    {
-      animation_active = 1;
-      glutTimerFunc(TIME, on_timer, TIMER_ID);
+    case ' ':
+      // Starting or resuming the game
+      if (!animation_active && !gameover)
+      {
+        animation_active = 1;
+        strcpy(notification_text, "");
+        glutTimerFunc(TIME, on_timer, TIMER_ID);
+      } else { 
+      // Pausing the game
+        animation_active = 0;
+        strcpy(notification_text, "Press Space to Start/Resume Game | Press Q to quit");
+      }
+      break;
+
+    case 'r':
+    case 'R':
+    // Restarting the game 
+      if (!animation_active)
+        restart_game();
+      glutPostRedisplay();
+      break;
     }
-    else
-    {
-      animation_active = 0;
-    }
-    break;
-  }
 }
 
 void on_timer(int value)
@@ -216,6 +235,7 @@ void on_timer(int value)
     glutTimerFunc(TIME, on_timer, TIMER_ID);
 }
 
+// Airplane moving to the right
 void move_right(int value){
   if (value != TIMER_ID)
     return;
@@ -231,6 +251,7 @@ void move_right(int value){
   glutPostRedisplay();
 }
 
+// Airplane moving to the left
 void move_left(int value){
   if (value != TIMER_ID)
     return;
@@ -246,6 +267,7 @@ void move_left(int value){
   glutPostRedisplay();
 }
 
+// Function used for displaying score counter in upper right corner
 void display_score(){
   int current_width = glutGet(GLUT_WINDOW_WIDTH);
   int current_height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -266,11 +288,11 @@ void display_score(){
     if (words < 0)
       exit(1);
     glColor3f(1.0, 1.0, 1.0);
-    glRasterPos2f(current_width - 200, current_height - 45.0);
+    glRasterPos2f(current_width - 160, current_height - 45.0);
     int len = (int)strlen(score_string);
 
     for (int i = 0; i < len; i++)
-      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, score_string[i]);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, score_string[i]);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -280,4 +302,42 @@ void display_score(){
 
   glPopMatrix();
   glutPostRedisplay();
+}
+
+// Function used for printing text notification before game is started
+// on pause and when game is over
+void print_notification_text(char *text){
+  int len = (int)strlen(text);
+  int current_width = glutGet(GLUT_WINDOW_WIDTH);
+  int current_height = glutGet(GLUT_WINDOW_HEIGHT);
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+
+    glLoadIdentity();
+    glDisable(GL_LIGHTING);
+    glOrtho(0, current_width, 0, current_height, -1, 1);
+  
+    glColor3f(1.0, 1.0, 1.0);
+    glRasterPos2f(current_width/2 - 5*len, current_height*.95);
+
+    for (int i = 0; i < len; i++)
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+
+    glMatrixMode(GL_MODELVIEW);
+
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+
+  glPopMatrix();
+  glutPostRedisplay();
+}
+
+void restart_game(){
+  indicators_reset();
+  init_obstacles();
 }

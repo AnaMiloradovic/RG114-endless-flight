@@ -1,24 +1,40 @@
 #include "include/draw.h"
 
 void draw_track(){
-    glPushMatrix();
+    // // glColor3f(0, 1, 0);
+    // glPushMatrix();
+    //     glEnable(GL_TEXTURE_2D);
+    //     glBindTexture(GL_TEXTURE_2D, names[0]);
+    //     glBegin(GL_POLYGON);
+    //         glNormal3f(0, 1, 0);
 
-        glColor3f(0.3, 1, 0);
+    //         glTexCoord2f(0, 0);
+    //         glVertex3f(-100, -0.1, 10);
+    //         glTexCoord2f(0, 1);          
+    //         glVertex3f(-100, -0.1, -100);
+    //         glTexCoord2f(1, 1);
+    //         glVertex3f(106, -0.1, -100);
+    //         glTexCoord2f(1, 0);
+    //         glVertex3f(106, -0.1, 10);
+    //     glEnd();
+    //     glDisable(GL_TEXTURE_2D);
+
+    // glPopMatrix();
+
+    glPushMatrix();
 
         GLfloat ambient_coeffs[] = { 1, 1, 0, 1 };
         GLfloat diffuse_coeffs[] = { 0.2, 1, 0, 1 };
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_coeffs);
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_coeffs);
 
-        glLineWidth(10);
-        glBegin(GL_QUADS);
+        // glLineWidth(10);
+        glBegin(GL_POLYGON);
             glNormal3f(0, -1, 0);
+
             glVertex3f(0, 0, 10);
-            glNormal3f(0, -1, 0);           
             glVertex3f(0, 0, -100);
-            glNormal3f(0, -1, 0);
             glVertex3f(6, 0, -100);
-            glNormal3f(0, -1, 0);
             glVertex3f(6, 0, 10);
         glEnd();
 
@@ -48,30 +64,22 @@ void draw_plane(){
         glBegin(GL_TRIANGLES);
             glNormal3f(0,1,0);
             glVertex3fv(v0);  
-            // glNormal3f(0,1,0);         
             glVertex3fv(v1); 
-            // glNormal3f(0,1,0);           
             glVertex3fv(v2);
 
             glNormal3f(1,0.25,0);
             glVertex3fv(v0);   
-            // glNormal3f(0,0.5,0);        
             glVertex3fv(v2);
-            // glNormal3f(0,0.5,0);            
             glVertex3fv(v3);
 
             glNormal3f(-1,0.25,0);
             glVertex3fv(v0);  
-            // glNormal3f(0,-0.5,0);         
             glVertex3fv(v3); 
-            // glNormal3f(0,-0.5,0);           
             glVertex3fv(v4);
 
             glNormal3f(0,1,0);
             glVertex3fv(v0); 
-            glNormal3f(0,1,0);           
             glVertex3fv(v4);
-            glNormal3f(0,1,0);            
             glVertex3fv(v5);
         glEnd();
 

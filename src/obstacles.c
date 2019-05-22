@@ -123,25 +123,17 @@ void init_obstacles(){
     }  
 }
 
-bool is_in_range(float x, float low, float high){
-    if (x < low || x > high)
-    {
-        return false;
-    }
-
-    return true;    
-}
-
 bool collided(float player_z, float obst_z, int player_x, int obst_x){
-    float range_buff = 0.2;
-
-    if(is_in_range(player_z, obst_z-range_buff, obst_z+range_buff) && player_x == obst_x)
+    if (player_z == nearbyint(obst_z) && player_x == obst_x)
         return true;
-    
+        
     return false;
 }
 
 void process_collision(){ 
     animation_active = 0;
-    
+    gameover = true;
+    // glutPostRedisplay();
+    strcpy(notification_text, "GAME OVER | Press R to Restart game | Press Q to Quit");
+    print_notification_text(notification_text);
 }

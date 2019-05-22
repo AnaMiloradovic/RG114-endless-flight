@@ -23,4 +23,8 @@ extern float score;
 
 extern int err_indicator;
 
+extern bool gameover;
+
+extern char notification_text[255];
+
 #endif

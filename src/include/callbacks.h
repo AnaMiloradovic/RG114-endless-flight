@@ -13,6 +13,10 @@ void on_timer(int value);
 void move_right(int value);
 void move_left(int value);
 
-void display_score();
+void display_score(void);
+
+void restart_game(void);
+
+void print_notification_text(char *text);
 
 #endif

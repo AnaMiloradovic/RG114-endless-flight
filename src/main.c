@@ -12,6 +12,8 @@ int main(int argc, char **argv){
 
   // Callback function init
   callbacks_init();
+
+  init_texture();
   
   // Enter main loop
   glutMainLoop();

@@ -13,6 +13,7 @@
 #include "draw.h"
 #include "callbacks.h"
 #include "indicators.h"
+#include "image.h"
 
 #define WINDOW_HEIGTH 450
 #define WINDOW_WIDTH 800
@@ -24,6 +25,10 @@ void glut_init(int *argc, char **argv);
 void callbacks_init(void);
 
 void obstacles_init(void);
+
+void init_texture(void);
+
+void indicators_reset(void);
 
 
 #endif

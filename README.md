@@ -1,5 +1,6 @@
 
 # :airplane: Endless Flight 
+<img src="https://github.com/MATF-RG18/RG114-endless-flight/blob/master/src/img/endlessFlight.jpg?raw=true" alt="drawing" width="500"/>
 ## :memo: Kratak opis
 Endless Flight je jednostavna igrica u kojoj igrač ima zadatak da upravlja papirnim aviončićem koji treba da što brže prolazi kroz šumu.  Nagrađuje se brzina. Za dovoljno veštog igrača kraja nema jer je generisana staza beskonačna, ali je otežavajuća okolnost to što se avinčić vremenom kreće sve brže i brže pa je izbegavanje stabala vremenom sve teže.
 ## :wrench: Podešavanje

@@ -4,10 +4,16 @@
 ## :wrench: Podešavanje
 * Preuzimanje ili kloniranje direktorijuma 
 ``` git clone https://github.com/MATF-RG18/RG114-endless-flight ```
+* Pozicioniranje u direktorijum igre
+``` cd RG114-endless-flight ```
 * Kompilacija
 ``` make ```
 * Pokretanje igrice
 ``` ./endlessFlight ```
+### Ili objedinjeno
+```
+git clone https://github.com/MATF-RG18/RG114-endless-flight && cd RG114-endless-flight && make && ./endlessFlight
+```
 
 ## :video_game: Komande
 |  Taster|Komanda  |
